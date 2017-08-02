@@ -40,7 +40,7 @@ RUN bash MEGAN_unix_5_11_3.sh < /tmp/megan_install_v5
 RUN apt-get update && \
     apt-get install -y r-base && \
     apt-get install -y curl && \
-    apt-get install -y make \
+    apt-get install -y make && \
     apt-get install -y r-cran-ggplot2
 
 RUN R --slave -e 'install.packages("dplyr", repos="http://cran.bic.nus.edu.sg/")'
