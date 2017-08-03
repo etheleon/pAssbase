@@ -41,22 +41,19 @@ RUN apt-get update && \
     apt-get install -y r-base && \
     apt-get install -y curl && \
     apt-get install -y make && \
-    apt-get install -y r-cran-ggplot2
-
-RUN R --slave -e 'install.packages("dplyr", repos="http://cran.bic.nus.edu.sg/")'
-RUN R --slave -e 'source("http://bioconductor.org/biocLite.R"); biocLite("Biostrings")'
+    apt-get install -y git
 
 RUN wget http://www.drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux64.tar.gz && \
     tar zvxf muscle3.8.31_i86linux64.tar.gz
 RUN cp /tmp/muscle3.8.31_i86linux64 /usr/bin/muscle
 
+RUN R --slave -e 'install.packages("tidyverse", repos="http://cran.bic.nus.edu.sg/")'
+RUN R --slave -e 'source("http://bioconductor.org/biocLite.R"); biocLite("Biostrings")'
+
+#Perl Stuff
 RUN apt-get install perl-doc
-RUN apt-get install -y git
-
 RUN curl -L https://cpanmin.us | perl - App::cpanminus && \
-    cpanm local::lib Carton Module::Install Minilla
-
-RUN cpanm Devel::CheckBin Module::Install Modern::Perl Moo Bio::SeqIO Statistics::Basic Statistics::R namespace::clean Set::IntervalTree Getopt::Lucid Parallel::ForkManager Array::Utils List::MoreUtils Test::More
+    cpanm local::lib Carton Module::Install Minilla Devel::CheckBin Module::Install Modern::Perl Moo Bio::SeqIO Statistics::Basic Statistics::R namespace::clean Set::IntervalTree Getopt::Lucid Parallel::ForkManager Array::Utils List::MoreUtils Test::More
 
 #################### INSTALLATION ENDS ##############################
 MAINTAINER Wesley GOI <wesley@bic.nus.edu.sg>
